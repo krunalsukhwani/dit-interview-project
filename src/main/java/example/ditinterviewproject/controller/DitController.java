@@ -26,6 +26,8 @@ public class DitController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    String token=null;
+
     @GetMapping("/hello")
     public String hello(ResponseBean respBean) {
         respBean.setSuccess("true");
@@ -48,8 +50,8 @@ public class DitController {
         final UserDetails userDetails = ditService
                 .loadUserByUsername(authenticationRequest.getUser_name());
 
-        final String token = jwtTokenUtil.generateToken(userDetails);
-
+//        final String token = jwtTokenUtil.generateToken(userDetails);
+        token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
@@ -64,7 +66,22 @@ public class DitController {
     }
 
     @GetMapping("/authenticate")
-    public String userauthenticate() {
-        return "authenticated";
+    public AuthenticateResponseBean userauthenticate() {
+        AuthenticateResponseBean respBean = new AuthenticateResponseBean();
+        AuthDataResponse dataresp = new AuthDataResponse();
+        JwtResponse response=new JwtResponse(token);
+        if(response.getToken()!=null)
+        {
+            dataresp.setAuthorized("true");
+            respBean.setSuccess("true");
+            respBean.setData(dataresp);
+            respBean.setError(null);
+        }else{
+            dataresp.setAuthorized("false");
+            respBean.setSuccess("false");
+            respBean.setData(dataresp);
+            respBean.setError("true");
+        }
+        return respBean;
     }
 }
