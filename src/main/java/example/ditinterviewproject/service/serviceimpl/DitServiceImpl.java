@@ -1,6 +1,7 @@
 package example.ditinterviewproject.service.serviceimpl;
 
 import example.ditinterviewproject.bean.CreateResponseBean;
+import example.ditinterviewproject.bean.DataResponseBean;
 import example.ditinterviewproject.bean.User;
 import example.ditinterviewproject.repository.UserRepository;
 import example.ditinterviewproject.service.DitService;
@@ -15,9 +16,6 @@ public class DitServiceImpl implements DitService {
 
     @Override
     public CreateResponseBean create(User user) {
-        CreateResponseBean respBean = new CreateResponseBean();
-        int i = userRepository.create(user);
-        System.out.println("i value : " + i);
-        return respBean;
+        return userRepository.create(user);
     }
 }
