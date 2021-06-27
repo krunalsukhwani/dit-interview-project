@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Optional;
 
 @Repository
 public class JdbcUserRepository implements UserRepository {
@@ -49,5 +50,20 @@ public class JdbcUserRepository implements UserRepository {
             System.out.println("Error in repository create method " + e.getMessage());
         }
         return respBean;
+    }
+
+    @Override
+    public Optional<UserBean> findByUsername(String username) {
+        return jdbcTemplate.queryForObject(
+                "select * from users where user_name = ?",
+                new Object[]{username},
+                (rs, rowNum) ->
+                        Optional.of(new UserBean(
+                                rs.getString("first_name"),
+                                rs.getString("last_name"),
+                                rs.getString("user_name"),
+                                rs.getString("user_password")
+                        ))
+        );
     }
 }

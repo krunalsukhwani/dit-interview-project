@@ -5,6 +5,7 @@ import lombok.*;
 @Setter
 @Getter
 @ToString
+@AllArgsConstructor
 public class UserBean {
     private String first_name;
     private String last_name;
