@@ -13,7 +13,6 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public int create(User user) {
-        System.out.println("user data printed " + user.toString());
         return jdbcTemplate.update("INSERT INTO users(first_name,last_name,user_name,user_password) VALUES(?,?,?,?)",
                 user.getFirst_name(),user.getLast_name(),user.getUser_name(),user.getPassword());
     }

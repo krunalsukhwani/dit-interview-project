@@ -29,7 +29,6 @@ public class DitController {
     @PostMapping(value = "/create",consumes="application/json",produces ="application/json")
     public CreateResponseBean create(@RequestBody User user)
     {
-        System.out.println("user value in controller: "+user.toString());
         return ditService.create(user);
     }
 
