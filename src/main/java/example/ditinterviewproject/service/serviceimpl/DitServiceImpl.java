@@ -28,8 +28,8 @@ public class DitServiceImpl implements DitService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if ("vishptl".equals(username)) {
-            return new User("vishptl", "$2a$10$E3hnIxpKBLe13Jc0iTk37.HL8aEN3QkQb1/fZQizivF.f.EqQMN52",new ArrayList<>());
+        if ("ksukhwani".equals(username)) {
+            return new User("ksukhwani", "$2a$10$ZAFxwG9KRyWB64SZoxSjAO71hMy/MsN03Msk7GSLzXVOq76hXYSD6",new ArrayList<>());
         } else {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
