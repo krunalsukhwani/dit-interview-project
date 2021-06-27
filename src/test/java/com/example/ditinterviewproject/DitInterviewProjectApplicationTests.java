@@ -15,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = DitInterviewProjectApplicationTests.class)
 @AutoConfigureMockMvc
 class DitInterviewProjectApplicationTests {
+
     @Autowired
     private MockMvc mvc;
 
