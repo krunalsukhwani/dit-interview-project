@@ -1,9 +1,6 @@
 package example.ditinterviewproject.repository;
 
-import example.ditinterviewproject.bean.CreateResponseBean;
-import example.ditinterviewproject.bean.DataResponseBean;
-import example.ditinterviewproject.bean.ResponseBean;
-import example.ditinterviewproject.bean.User;
+import example.ditinterviewproject.bean.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -23,7 +20,7 @@ public class JdbcUserRepository implements UserRepository {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public CreateResponseBean create(User user) {
+    public CreateResponseBean create(UserBean user) {
         CreateResponseBean respBean = new CreateResponseBean();
         DataResponseBean dataResp = new DataResponseBean();
         try {

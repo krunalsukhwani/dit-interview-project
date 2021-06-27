@@ -2,20 +2,29 @@ package example.ditinterviewproject.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import example.ditinterviewproject.bean.CreateResponseBean;
-import example.ditinterviewproject.bean.ResponseBean;
-import example.ditinterviewproject.bean.User;
+import example.ditinterviewproject.bean.*;
+import example.ditinterviewproject.config.JwtTokenUtil;
 import example.ditinterviewproject.service.DitService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 public class DitController {
     @Autowired
     DitService ditService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     @GetMapping("/hello")
     public String hello(ResponseBean respBean) {
@@ -27,18 +36,35 @@ public class DitController {
     }
 
     @PostMapping(value = "/create",consumes="application/json",produces ="application/json")
-    public CreateResponseBean create(@RequestBody User user)
+    public CreateResponseBean create(@RequestBody UserBean user)
     {
         return ditService.create(user);
     }
 
     @PostMapping("/login")
-    public String login() {
-        return "Hello from login method";
+    public ResponseEntity<?> login(@RequestBody JwtRequest authenticationRequest) throws Exception {
+        authenticate(authenticationRequest.getUser_name(), authenticationRequest.getPassword());
+
+        final UserDetails userDetails = ditService
+                .loadUserByUsername(authenticationRequest.getUser_name());
+
+        final String token = jwtTokenUtil.generateToken(userDetails);
+
+        return ResponseEntity.ok(new JwtResponse(token));
+    }
+
+    private void authenticate(String username, String password) throws Exception {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        } catch (DisabledException e) {
+            throw new Exception("USER_DISABLED", e);
+        } catch (BadCredentialsException e) {
+            throw new Exception("INVALID_CREDENTIALS", e);
+        }
     }
 
     @GetMapping("/authenticate")
-    public String authenticate() {
+    public String userauthenticate() {
         return "authenticated";
     }
 }
