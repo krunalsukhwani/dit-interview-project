@@ -12,6 +12,6 @@ Change database credentials in src/main/resources/application.properties file ba
 4. Start the spring boot application.
 5. It should start without any exception.
 # Testing support (JUnit)
-spring boot starter test library waas used for the testing in this project. class was created with two tests in project.
+spring boot starter test library was used for the testing in this project. class was created with two tests in project.
 # Curl (client for Urls) request for all the APIs
 To get to know, How to run it? You can refer screenshot folder attached in github repository.
