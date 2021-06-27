@@ -10,5 +10,6 @@ import lombok.ToString;
 @ToString
 public class CreateResponseBean {
     private String success;
+    private DataResponseBean data;
     private String error;
 }
